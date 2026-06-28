@@ -42,7 +42,7 @@ l = ["charan", "raj", "charan", "kiran","raj"]
 print(l.count("charan")) #it counts how many   value are there in list
 print(l.count("raj"))
 #method reverse
-l=[32,56,2,5,89]
+l=["32","56","2","5","89"]
 l.reverse() #reverseing  of the list o/p=[89, 5, 2, 56, 32]
 print(l)
 #list of concatenation

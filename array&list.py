@@ -73,3 +73,8 @@ kh=[90,50,30,50,60]
 kh[1]=66
 print(kh)#op:90, 66, 30, 50, 60]
 
+
+s1="listen"
+s2="silent"
+
+print(sorted(s1)==sorted(s2))
