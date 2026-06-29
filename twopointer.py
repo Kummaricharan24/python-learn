@@ -369,4 +369,131 @@ class Solution(object):
 s1=Solution()
 result=s1.threeSum([-1, 0, 1, 2, -1, -4])
 print(result)
+        #op:[0, 2]
+
+#sort colors
+class Solution(object):
+    def sortColors(self, nums):
+        low=0
+        high=len(nums)-1
+        mid=0
+        while mid<=high:
+            if nums[mid]==0:
+                nums[low],nums[mid]=nums[mid],nums[low]
+                low+=1
+                mid+=1
+            elif nums[mid]==1:
+                mid+=1
+            else:  # mid==2:
+                nums[mid],nums[high]=nums[high],nums[mid]
+                high-=1
         
+
+s1=Solution()
+nums=[2,0,2,1,1,0]
+s1.sortColors(nums)
+print(nums)    #op:[0, 0, 1, 1, 2, 2]
+    # from this we can solove the answer
+''' nums.sort()
+    return nums
+s1=Solution()
+result=s1.sortColors([2,0,2,1,1,0])
+print(result)#op:[0, 0, 1, 1, 2, 2]
+'''
+
+
+#longest substring without repeating characters
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        left=0
+        max_level=0
+        char_set=set()
+        for right in range(len(s)):
+            while s[right] in char_set:
+                char_set.remove(s[left])
+                left+=1
+            char_set.add(s[right])
+            max_level=max(max_level,right-left+1)
+        return max_level
+               
+
+                            
+            
+
+s1=Solution()
+print(s1.lengthOfLongestSubstring("abcabcbb"))#op:3
+print(s1.lengthOfLongestSubstring("bbbbb"))#op:1
+print(s1.lengthOfLongestSubstring("pwwkew"))#op:3
+
+#minimum size subarrray sum
+class Solution(object):
+    def minSubArrayLen(self, target, nums):
+        left=0
+        total=0
+        min_len=float('inf')
+        for right in range(len(nums)):
+            total+=nums[right]
+            while total>=target:
+                min_len=min(min_len,right-left+1)
+                total-=nums[left]
+                left+=1
+        return 0 if min_len==float('inf') else min_len
+s1 = Solution()
+print(s1.minSubArrayLen(7, [2,3,1,2,4,3]))  # 2
+print(s1.minSubArrayLen(4, [1,4,4]))         # 1
+print(s1.minSubArrayLen(11, [1,1,1,1,1,1])) # 0
+
+
+
+#trapping rain water
+class Solution(object):
+    def trap(self, height):
+        left=0
+        right=len(height)-1
+        water=0
+        max_left=0
+        max_right=0
+        while left<right:
+            if height[left]<height[right]:
+                if height[left]>=max_left:
+                    max_left=height[left]
+                else:
+                    water+=max_left-height[left]
+                left+=1
+            else:
+                if height[right]>=max_right:
+                    max_right=height[right]
+                else:
+                    water+=max_right-height[right]
+                right-=1
+        return water
+s1=Solution()
+print(s1.trap([0,1,0,2,1,0,1,3,2,1,2,1]))#op:6
+print(s1.trap([4,2,0,3,2,5]))#op:9
+
+
+
+#longest mountain in array
+class Solution(object):
+    def longestMountain(self, arr):
+        max_len=0
+        n=len(arr)
+        i=1
+        while i<n-1:
+            if arr[i-1]<arr[i] and arr[i]>arr[i+1]:
+                left=i-1
+                right=i+1
+                while left>0 and arr[left-1]<arr[left]:
+                    left-=1
+                while right<n-1 and arr[right]>arr[right+1]:
+                    right+=1
+                max_len=max(max_len,right-left+1)
+                i=right
+            else:
+                 i+=1
+        return max_len
+
+s1 = Solution()
+print(s1.longestMountain([2,1,4,7,3,2,5]))  # 5
+print(s1.longestMountain([2,2,2]))           # 0
+print(s1.longestMountain([0,1,2,3,4,5,4,3,2,1,0]))  # 11
