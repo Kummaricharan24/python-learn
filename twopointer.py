@@ -17,7 +17,7 @@ def Twopointer(num,target):
 print(Twopointer(num,9))#op:[0, 2]
 
 
-#secound problem dubilicate
+'''#secound problem dubilicate
 a=input().split(",")
 h=[int(c) for c in a]
 def Duplicate(num):
@@ -36,7 +36,7 @@ def Duplicate(num):
 
 
 print(Duplicate(h)) #op:[1, 2]
-
+'''
    
 
 def remove_duplicates(input_list):
@@ -98,9 +98,6 @@ print(remove_duplicates([0, 1, 2, 3, 4, 2, 2, 3, 3, 4]))
 stri="A man, a plan, a canal: Panama"
 cleaned = ''.join(ch.lower() for ch in stri if ch.isalnum())
 print(cleaned)
-
-
-
 def Palindrome(cleaned):
     left=0
     right=len(cleaned)-1
@@ -115,6 +112,10 @@ op:amanaplanacanalpanama
 True
 #container with most water
 height=[1,8,6,2,5,4,8,3,7]
+
+#container water 
+
+
 def heightwater(height):
     left=0
     right=len(height)-1
@@ -129,6 +130,8 @@ def heightwater(height):
     return max_area
 print(heightwater(height))#op:49
 
+
+#movesZeros 
 
 def move_zeroes(nums):
     left = 0
@@ -145,6 +148,11 @@ nums = [0, 1, 0, 3, 12]
 print(move_zeroes(nums))           
 #op:
 [1, 3, 12, 0, 0]
+
+
+
+
+#reverstring
 class Solution:
     def reverseString(self, s):
         left, right = 0, len(s) - 1
@@ -162,7 +170,7 @@ s = ["h", "e", "l", "l", "o"]
 
 print(s1.reverseString(s))
 
-
+#duplication values
 
 class Solution:
     def duplicate(self,num):
@@ -186,7 +194,7 @@ print(num)
 #op:4
 [0, 1, 2, 3, '-', '-', '-']
 
-
+#twosums
 
 class Solution(object):
     def twoSum(self, numbers, target):
@@ -238,7 +246,7 @@ s1=Solution()
 result=s1.reverseString(["h","e","l","l","o"])
 print(result)#op:['o', 'l', 'l', 'e', 'h']
 
-
+#contianer water
 class Solution(object):
     def maxArea(self, height):
         left=0
@@ -316,7 +324,7 @@ class Solution(object):
             count+=i-left+1
         return count
 s1 = Solution()
-result = s1.numSubarrayProductLessThanK([10, 5, 2, 6], 100)
+result = s1.numSubarrayProductLessThanK([10, 5, 2, 6], 100)#[10],[5],[2],[6],[10,5],[10,2],[10,6][10,5,2]
 print(result) #op:8
 
 
@@ -342,7 +350,7 @@ print(result) #op:2
 #3 sum
 class Solution(object):
     def threeSum(self, nums):
-        nums.sort()
+        nums.sort() #[-4,-1,-1,0,1,2]
         result=[]
         for i in range(len(nums)-2):
             if i>0 and nums[i]==nums[i-1]:#skip duplicates
