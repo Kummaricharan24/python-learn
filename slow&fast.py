@@ -189,7 +189,7 @@ head = node1
 
 # -------- Test --------
 s1 = Solution()
-print(s1.isPalindrome(head))#op:True'''
+print(s1.isPalindrome(head))#op:True
 
 
 #Remove nth node from list
@@ -258,4 +258,96 @@ new_head = s.removeNthFromEnd(head, n)
 
 print("Final list:", linked_list_to_list(new_head))
 #op:
-Final list: [1, 2, 3, 5]
+#Final list: [1, 2, 3, 5]
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def build_list(values):
+    dummy = ListNode()
+    curr = dummy
+    for v in values:
+        curr.next = ListNode(v)
+        curr = curr.next
+    return dummy.next
+
+def print_list(head):
+    vals = []
+    while head:
+        vals.append(str(head.val))
+        head = head.next
+    print(" -> ".join(vals))
+
+class Solution:
+    def reorderList(self, head):
+        slow = head
+        fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        second = slow.next
+        slow.next = None
+        prev = None
+        while second:
+            nxt = second.next
+            second.next = prev
+            prev = second
+            second = nxt
+        second = prev
+
+        first = head
+        while second:
+            tmp1, tmp2 = first.next, second.next
+            first.next = second
+            second.next = tmp1
+            first, second = tmp1, tmp2
+
+
+# Test it
+head = build_list([1, 2, 3, 4, 5])
+print("Before:", end=" ")
+print_list(head)
+
+Solution().reorderList(head)
+
+print("After: ", end=" ")
+print_list(head)
+op:Before: 1 -> 2 -> 3 -> 4 -> 5
+After:  1 -> 5 -> 2 -> 4 -> 3
+
+
+
+
+#duplicate number in array value=2
+class Solution:
+    def findDuplicate(self, nums):
+        # Phase 1: find intersection point in the cycle
+        slow, fast = nums[0], nums[0]
+        while True:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+            print(f"Phase 1 -> slow={slow}, fast={fast}")
+            if slow == fast:
+                break
+
+        # Phase 2: find entrance to the cycle (the duplicate number)
+        slow = nums[0]
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[fast]
+            print(f"Phase 2 -> slow={slow}, fast={fast}")
+
+        return slow
+
+
+# Test it
+nums = [1, 3, 4, 2, 2]
+print("Input:", nums)
+result = Solution().findDuplicate(nums)
+print("Duplicate:", result) #op:Duplicate: 2'''
+
+
