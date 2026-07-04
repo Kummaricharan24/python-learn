@@ -431,3 +431,240 @@ grumpy    = [0, 1, 0, 1, 0, 1, 0, 1]
 minutes   = 3
 
 print(sol.maxSatisfied(customers, grumpy, minutes))   # 16
+
+#checkSubarraySum
+
+class Solution:
+    def checkSubarraySum(self, nums, k):
+        # remainder -> earliest index where this remainder was seen
+        remainder_index = {0: -1}
+
+        current_sum = 0
+
+        for i, num in enumerate(nums):
+            current_sum += num
+
+            if k != 0:
+                remainder = current_sum % k
+            else:
+                remainder = current_sum
+
+            if remainder in remainder_index:
+                # Check if the subarray length is at least 2
+                if i - remainder_index[remainder] >= 2:
+                    return True
+            else:
+                # Store only the first occurrence of the remainder
+                remainder_index[remainder] = i
+
+        return False
+
+
+# ---------------- Main Program ----------------
+
+nums = [23, 2, 4, 6, 7]
+k = 6
+
+sol = Solution()
+answer = sol.checkSubarraySum(nums, k)
+
+print("Does a valid subarray exist?", answer)
+
+#subarraySum
+
+from collections import defaultdict
+
+class Solution:
+    def subarraySum(self, nums, k):
+        prefix_count = defaultdict(int)
+        prefix_count[0] = 1
+
+        current_sum = 0
+        result = 0
+
+        for num in nums:
+            current_sum += num
+
+            if (current_sum - k) in prefix_count:
+                result += prefix_count[current_sum - k]
+
+            prefix_count[current_sum] += 1
+
+        return result
+
+
+# ---------------- Main Program ----------------
+
+nums = [1, 1, 1]
+k = 2
+
+sol = Solution()
+answer = sol.subarraySum(nums, k)
+
+print("Number of subarrays with sum", k, "=", answer)
+
+
+#subarraysWithKDistinct
+
+
+from collections import defaultdict
+
+class Solution(object):
+    def subarraysWithKDistinct(self, nums, k):
+
+        def atMost(k):
+            if k < 0:
+                return 0
+
+            count = defaultdict(int)
+            left = 0
+            result = 0
+
+            for right in range(len(nums)):
+                count[nums[right]] += 1
+
+                while len(count) > k:
+                    count[nums[left]] -= 1
+
+                    if count[nums[left]] == 0:
+                        del count[nums[left]]
+
+                    left += 1
+
+                result += right - left + 1
+
+            return result
+
+        return atMost(k) - atMost(k - 1)
+
+
+# ---------------- Main Program ----------------
+
+nums = [1, 2, 1, 2, 3]
+k = 2
+
+sol = Solution()
+answer = sol.subarraysWithKDistinct(nums, k)
+
+print("Number of subarrays with exactly", k, "distinct elements:", answer)
+
+#IpivotIndex
+
+class Solution:
+    def pivotIndex(self, nums):
+        total = sum(nums)
+        left_sum = 0
+
+        for i, num in enumerate(nums):
+            if left_sum == total - left_sum - num:
+                return i
+
+            left_sum += num
+
+        return -1
+
+
+# ---------------- Main Program ----------------
+
+nums = [1, 7, 3, 6, 5, 6]
+
+sol = Solution()
+answer = sol.pivotIndex(nums)
+
+print("Pivot Index:", answer)
+
+
+
+
+
+
+class Solution(object):
+    def maxSatisfied(self, customers, grumpy, minutes):
+        n = len(customers)
+
+        # Part 1: Customers already satisfied
+        baseline = 0
+        for i in range(n):
+            if grumpy[i] == 0:
+                baseline += customers[i]
+
+        # Part 2: Sliding window to find maximum extra satisfied customers
+        extra_saved = 0
+        best_extra = 0
+        left = 0
+
+        for right in range(n):
+            if grumpy[right] == 1:
+                extra_saved += customers[right]
+
+            window_size = right - left + 1
+
+            if window_size > minutes:
+                if grumpy[left] == 1:
+                    extra_saved -= customers[left]
+                left += 1
+
+            best_extra = max(best_extra, extra_saved)
+
+        return baseline + best_extra
+
+
+# ---------------- Main Program ----------------
+
+customers = [1, 0, 1, 2, 1, 1, 7, 5]
+grumpy = [0, 1, 0, 1, 0, 1, 0, 1]
+minutes = 3
+
+sol = Solution()
+answer = sol.maxSatisfied(customers, grumpy, minutes)
+
+print("Maximum Satisfied Customers:", answer)
+
+
+
+
+
+
+
+#maxSatisfied
+class Solution(object):
+    def maxSatisfied(self, customers, grumpy, minutes):
+        n = len(customers)
+
+        # Part 1: Customers already satisfied
+        baseline = 0
+        for i in range(n):
+            if grumpy[i] == 0:
+                baseline += customers[i]
+
+        # Part 2: Sliding window to find maximum extra satisfied customers
+        extra_saved = 0
+        best_extra = 0
+        left = 0
+
+        for right in range(n):
+            if grumpy[right] == 1:
+                extra_saved += customers[right]
+
+            window_size = right - left + 1
+
+            if window_size > minutes:
+                if grumpy[left] == 1:
+                    extra_saved -= customers[left]
+                left += 1
+
+            best_extra = max(best_extra, extra_saved)
+
+        return baseline + best_extra
+
+
+# ---------------- Main Program ----------------
+
+customers = [1, 0, 1, 2, 1, 1, 7, 5]
+grumpy = [0, 1, 0, 1, 0, 1, 0, 1]
+minutes = 3
+
+sol = Solution()
+answer = sol.maxSatisfied(customers, grumpy, minutes)
+
+print("Maximum Satisfied Customers:", answer)
