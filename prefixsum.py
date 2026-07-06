@@ -361,3 +361,232 @@ obj = NumMatrix(matrix)
 print(obj.sumRegion(2, 1, 4, 3))  # Expected: 8
 print(obj.sumRegion(1, 1, 2, 2))  # Expected: 11
 print(obj.sumRegion(1, 2, 2, 4))  # Expected: 12
+
+
+
+#numSubmatrixSumTarget
+
+from typing import List
+
+class Solution:
+    def numSubmatrixSumTarget(self, matrix: List[List[int]], target: int) -> int:
+        rows, cols = len(matrix), len(matrix[0])
+        count = 0
+
+        print("Matrix:")
+        for row in matrix:
+            print(row)
+        print("Target:", target)
+        print()
+
+        # Choose the starting row
+        for top in range(rows):
+            print("=================================================")
+            print("TOP ROW =", top)
+
+            # Stores column sums
+            colSum = [0] * cols
+            print("Initial colSum:", colSum)
+            print()
+
+            # Choose the ending row
+            for bottom in range(top, rows):
+                print("-----------------------------------------")
+                print("BOTTOM ROW =", bottom)
+
+                # Update column sums
+                for j in range(cols):
+                    print(f"colSum[{j}] = {colSum[j]} + matrix[{bottom}][{j}] ({matrix[bottom][j]})")
+                    colSum[j] += matrix[bottom][j]
+
+                print("Updated colSum:", colSum)
+
+                # Prefix Sum + HashMap
+                prefixCount = {0: 1}
+                running = 0
+
+                print("Initial prefixCount:", prefixCount)
+                print()
+
+                for i, val in enumerate(colSum):
+                    print(f"Column {i}")
+                    print("Value:", val)
+
+                    running += val
+                    print("Running Sum:", running)
+
+                    need = running - target
+                    print("Need:", need)
+
+                    found = prefixCount.get(need, 0)
+                    print("Found in prefixCount:", found)
+
+                    count += found
+                    print("Count:", count)
+
+                    prefixCount[running] = prefixCount.get(running, 0) + 1
+                    print("Updated prefixCount:", prefixCount)
+                    print()
+
+        print("=========================================")
+        print("Final Count:", count)
+        return count
+
+
+# Driver Code
+matrix = [
+    [0, 1, 0],
+    [1, 1, 1],
+    [0, 1, 0]
+]
+
+target = 0
+
+obj = Solution()
+print(obj.numSubmatrixSumTarget(matrix, target))
+
+
+
+#productExceptSelf
+
+
+from typing import List
+
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        answer = [1] * n
+
+        print("Input:", nums)
+        print("Initial answer:", answer)
+        print()
+
+        # Prefix Pass
+        prefix = 1
+        print("========== PREFIX PASS ==========")
+        for i in range(n):
+            print(f"\nIteration {i}")
+            print("prefix before:", prefix)
+
+            answer[i] = prefix
+            print("answer after assignment:", answer)
+
+            prefix *= nums[i]
+            print("prefix after multiplication:", prefix)
+
+        print("\nAnswer after Prefix Pass:", answer)
+        print()
+
+        # Suffix Pass
+        suffix = 1
+        print("========== SUFFIX PASS ==========")
+        for i in range(n - 1, -1, -1):
+            print(f"\nIteration {i}")
+            print("suffix before:", suffix)
+
+            answer[i] *= suffix
+            print("answer after multiplication:", answer)
+
+            suffix *= nums[i]
+            print("suffix after multiplication:", suffix)
+
+        print("\nFinal Answer:", answer)
+        return answer
+
+
+# Driver Code
+obj = Solution()
+print(obj.productExceptSelf([1, 2, 3, 4]))
+#countRangeSum
+
+from typing import List
+
+class Solution:
+    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+        n = len(nums)
+        prefix = [0] * (n + 1)
+
+        for i in range(n):
+            prefix[i + 1] = prefix[i] + nums[i]
+
+        def mergeSort(lo, hi):
+            if hi - lo <= 1:
+                return 0
+
+            mid = (lo + hi) // 2
+            count = mergeSort(lo, mid) + mergeSort(mid, hi)
+
+            j_lo = j_hi = mid
+
+            for i in range(lo, mid):
+                while j_lo < hi and prefix[j_lo] - prefix[i] < lower:
+                    j_lo += 1
+                while j_hi < hi and prefix[j_hi] - prefix[i] <= upper:
+                    j_hi += 1
+                count += j_hi - j_lo
+
+            prefix[lo:hi] = sorted(prefix[lo:hi])
+            return count
+
+        return mergeSort(0, n + 1)
+
+
+# -------------------------
+# 🔥 RUN IN VS CODE BELOW
+# -------------------------
+
+nums = [-2, 5, -1]
+lower = -2
+upper = 2
+
+sol = Solution()
+result = sol.countRangeSum(nums, lower, upper)
+
+print("Number of range sums:", result)
+
+
+
+#countPalindromicSubsequence
+class Solution:
+    def countPalindromicSubsequence(self, s: str) -> int:
+        result = 0
+
+        print("Input String:", s)
+        print("Unique Characters:", set(s))
+        print()
+
+        for ch in set(s):
+            print("===================================")
+            print("Current Character:", ch)
+
+            left = s.find(ch)
+            right = s.rfind(ch)
+
+            print("First occurrence (left):", left)
+            print("Last occurrence (right):", right)
+
+            if left < right:
+                middle = s[left + 1:right]
+
+                print("Middle substring:", middle)
+
+                unique_middle = set(middle)
+
+                print("Unique middle characters:", unique_middle)
+                print("Count added:", len(unique_middle))
+
+                result += len(unique_middle)
+
+                print("Result so far:", result)
+            else:
+                print("Character appears only once. Nothing added.")
+
+            print()
+
+        print("Final Result:", result)
+        return result
+
+
+# Driver Code
+obj = Solution()
+print(obj.countPalindromicSubsequence("aabca"))
